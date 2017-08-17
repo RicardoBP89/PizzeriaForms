@@ -28,13 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.pizzeriaDataSet = new Pizzeria.pizzeriaDataSet();
+            this.ingredienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ingredienteTableAdapter = new Pizzeria.pizzeriaDataSetTableAdapters.ingredienteTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pizzeriaDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ingredienteBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -48,18 +54,14 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DataSource = this.ingredienteBindingSource;
+            this.comboBox1.DisplayMember = "nombre";
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Ingrediente 1",
-            "Ingrediente 2",
-            "Ingrediente 3",
-            "Ingrediente 4",
-            "Ingrediente 5"});
             this.comboBox1.Location = new System.Drawing.Point(11, 67);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 1;
-            this.comboBox1.Text = "Ingredientes";
+            this.comboBox1.Text = "Ingrediente";
             // 
             // openFileDialog1
             // 
@@ -95,6 +97,21 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "Guardar";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // pizzeriaDataSet
+            // 
+            this.pizzeriaDataSet.DataSetName = "pizzeriaDataSet";
+            this.pizzeriaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // ingredienteBindingSource
+            // 
+            this.ingredienteBindingSource.DataMember = "ingrediente";
+            this.ingredienteBindingSource.DataSource = this.pizzeriaDataSet;
+            // 
+            // ingredienteTableAdapter
+            // 
+            this.ingredienteTableAdapter.ClearBeforeFill = true;
             // 
             // Addpizza
             // 
@@ -110,7 +127,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Addpizza";
             this.Text = "Addpizza";
+            this.Load += new System.EventHandler(this.Addpizza_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pizzeriaDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ingredienteBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,5 +144,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button2;
+        private pizzeriaDataSet pizzeriaDataSet;
+        private System.Windows.Forms.BindingSource ingredienteBindingSource;
+        private pizzeriaDataSetTableAdapters.ingredienteTableAdapter ingredienteTableAdapter;
     }
 }
