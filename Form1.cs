@@ -20,8 +20,40 @@ namespace Pizzeria
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection command = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=pizzeria;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            SqlDataAdapter sda = new SqlDataAdapter("Select Count(*) From users where Nombre='" + textBox1.Text + "' and Pass='" + textBox2.Text + "'",command);
+            if (textBox1.Text=="" || textBox2.Text=="")
+            {
+                MessageBox.Show("Rellene los campos de registro");
+                return;
+            }
+            try
+            {
+                SqlConnection command = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=pizzeria;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlCommand cmd = new SqlCommand("Select Nombre, Pass from users where Nombre=@nombre and Pass=@pass", command);
+                cmd.Parameters.AddWithValue("@nombre", textBox1.Text);
+                cmd.Parameters.AddWithValue("@pass", textBox2.Text);
+                command.Open();
+                SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                adapt.Fill(ds);
+                command.Close();
+                int count = ds.Tables[0].Rows.Count;
+                if (count == 1)
+                {
+                    MessageBox.Show("Login correcto.");
+                    this.Hide();
+                    Form2 fm = new Form2();
+                    fm.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Login fallido.");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            /*SqlDataAdapter sda = new SqlDataAdapter("Select Count(*) From users where Nombre='" + textBox1.Text + "' and Pass='" + textBox2.Text + "'",command);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             if (dt.Rows[0][0].ToString() == "1")
@@ -34,7 +66,7 @@ namespace Pizzeria
             } else
             {
                 MessageBox.Show("Please check your name or password are correct");
-            }
+            }*/
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
