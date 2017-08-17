@@ -42,22 +42,20 @@ namespace Pizzeria
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=pizzeria;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            connection.Open();
-
             try
             {
-                SqlCommand sqlInsert = new SqlCommand("INSERT INTO users VALUES ('" + textBox1.Text + "','" + textBox3.Text + "','" + textBox2.Text + "'", connection);
-                {
-
-                    sqlInsert.Parameters.Add(new SqlParameter());
-                    sqlInsert.Parameters.Add(new SqlParameter());
-                    sqlInsert.Parameters.Add(new SqlParameter());
-
-
-                }
-                sqlInsert.ExecuteNonQuery();
-                Console.WriteLine("Table Inserted");
+                SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=pizzeria;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                SqlCommand cmd = new SqlCommand("Insert into users values (@user,@pass,@correo)", connection);
+                cmd.Parameters.AddWithValue("@user", textBox1.Text);
+                cmd.Parameters.AddWithValue("@pass", textBox3.Text);
+                cmd.Parameters.AddWithValue("@correo", textBox2.Text);
+                connection.Open();
+                SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                adapt.Fill(ds);
+                connection.Close();
+                MessageBox.Show("Se ha registrado con exito.");
+                this.Hide();
             }
             catch (Exception x)
             {
