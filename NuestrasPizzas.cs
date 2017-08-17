@@ -29,6 +29,7 @@ namespace Pizzeria
             hijo1.Dock = DockStyle.Fill;
             this.panel5.Controls.Add(hijo1);
             this.panel5.Tag = hijo1;
+            
             hijo1.Show();
         }
     }
